@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/commons-fileupload-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-net-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/jakarta-commons-io-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/jstl.jar"/>
+	<classpathentry kind="lib" path="lib/standard.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="JAVAEE5.JAR"/>
+	<classpathentry kind="output" path="classes"/>
+</classpath>

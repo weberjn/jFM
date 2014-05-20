@@ -1,0 +1,10 @@
+<!--
+
+    Context configuration file for the jFM Web App
+    This is needed to enable cross Context access
+
+-->
+
+
+<Context path="/jFM" docBase="jFM" crossContext="true" />
+
