@@ -1,0 +1,115 @@
+pre {
+  margin-left: 2em;
+  padding: 1em;
+  background-color:#efefef; 
+  border: solid thin black;
+}
+
+body {
+  color:black; 
+  background:#ffffff;
+  font-family:Verdana,Helvetica,Arial; 
+  empty-cells:show; 
+  padding:0;
+}
+
+  a:link { color:blue; }
+  a:visited { color:purple; }
+  a:hover { background:#ffa }
+
+
+.leftcolumn {
+		left: 1%;
+		float:left;
+		width:48%;
+}
+.rightcolumn {
+		float:right;
+		width:48%;
+}
+
+h1 {
+ padding-top:0.3em; 
+ padding-bottom:0.3em; 
+ padding-left:0;
+ background-color:#efefef; 
+ color:black; 
+ font-family:Arial,Helvetica; 
+ text-align:center; 
+ border-bottom:solid thin black; 
+ border-top:solid thin black;
+}
+h2 { font-size:1.3em; padding:2px; background:#dfdfdf; color:black; font-family:Verdana,Arial,Helvetica; }
+h3 { padding:1mm; background:#f0f0f0; color:black; font-family:Arial,Helvetica; }
+h4 { padding:1mm; color:black; font-family:Georgia,Tahoma,Arial,Helvetica; }
+
+th { background-color:#dfdfdf; }
+
+td.leftmenu { 
+ width: 10%; 
+ valign:top; 
+ background:#f2f2f2; 
+ vertical-align:top;
+}
+
+#a[lang=de]:before { content:"[In German] "}
+a[hreflang=de]:after { content:" [in German]"}
+
+p {
+ %max-width: 70em;
+ padding-left:0.5em;
+}
+table {
+ padding-left:0.5em;
+}
+
+dl {
+ margin-left:0.2em;
+}
+p.menu { 
+ margin-left:0.1em;
+ font-type:italic;
+ %font-family:Verdana,Arial,Helvetica;
+ %color:#ffffff;
+ %background-color:#efefef;
+ border-width:thin; 
+ border-style: dotted; 
+ padding-left:1em; 
+ padding-right:1em;
+}
+
+p.url {
+ font-family:Courier;
+}
+
+p.quotetxt{ font-style:italic; text-align:right; margin-bottom:0.3em; margin-right:2em; }
+p.quotesrc{ font-size:smaller; text-align:right; margin-top:0.3em; margin-bottom:2em; margin-right:3em; }
+p.updated{ font-style: italic; font-size:smaller; text-align:right; margin-bottom, margin-top:0.3em;}
+p.toc { text-align:center; }
+
+p.lastmod {
+ text-align:center; 
+ background-color:#efefef; 
+ border-top:solid thin black; 
+ font-size:smaller; 
+ margin-bottom:0em; 
+ padding-top:1em; 
+ padding-left:1em; 
+ padding-bottom:0.5em;
+}
+p.copyright {
+ text-align:center; 
+ background-color:#efefef;  
+ font-size:smaller; 
+ margin-top:0em; 
+ padding-left:1em; 
+ padding-top:0.5em; 
+ padding-bottom:0.5em;
+ 
+}
+
+@media screen {}
+
+div#leftmenu {position: absolute; top: 5em; left: 0; width: 23%; background: transparent; padding: 0; margin: 1em; border-width: 0; text-align: right;}
+
+div#main {position: absolute; top: 5em; left: 25%; width: auto; margin: 1em; padding: 1em 1.5em;}

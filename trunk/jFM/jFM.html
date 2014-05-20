@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>jFM - java web application file manager</title>
+  <link href="styles/style.css" type="text/css" rel="stylesheet">
+  <meta http-equiv="content-type" content="text/html;CHARSET=iso-8859-1">
+</head>
+<body lang="en">
+<h1>jFM<br>
+</h1>
+<p>jFM is a file manager written as a java web application. It can
+be downloaded from <a href="http://jfm.dev.java.net/">http://jfm.dev.java.net/</a>.<br>
+</p>
+<p>jGallery uses some <a href="http://jakarta.apache.org/">Jakarta
+Libraries</a>.<br>
+</p>
+<p>jGallery itself is licensed under the <a href="http://www.gnu.org/">Gnu
+Public License</a> (GPL).<br>
+</p>
+<p>Nevertheless, I'd be happy if you <a href="contact.html#postcard">send
+me</a> a
+picture postcard of your place.<br>
+</p>
+<h2>Contents</h2>
+<ul>
+  <li><a href="#What_you_need">What you need</a></li>
+  <li><a href="#Installation">Installation and Configuration</a></li>
+  <li><a href="#FindingFolders">Finding Folders</a></li>
+  <li><a href="#Security">Security</a></li>
+</ul>
+<h3><a name="What_you_need"></a>What you need</h3>
+<ul>
+  <li>JDK 1.4 or later, available from <a href="http://java.sun.com">http://java.sun.com</a>
+  </li>
+  <li>Version 5.0 or later of <a href="http://jakarta.apache.org">Jakarta
+Tomcat</a>, available from <a href="http://jakarta.apache.org">http://jakarta.apache.org</a>
+or any other JSP 2.0 compatible web container<br>
+  </li>
+  <li>if you downloaded jFM-nolibs-xxx.zip you'll also need these libs
+from <a href="http://jakarta.apache.org/">http://jakarta.apache.org</a></li>
+  <ul>
+    <li>commons-fileupload</li>
+    <li>commons-io</li>
+    <li>jakarta-taglibs-standard-1.1.0<br>
+    </li>
+  </ul>
+</ul>
+<h3><a name="Installation">Installation and Configuration<br>
+</a></h3>
+<p>
+</p>
+<h4>For Tomcat 5:<br>
+</h4>
+<ol>
+  <li>Unzip the downloaded jFM-xxx.zip to the
+Tomcat webapps folder.</li>
+  <li>If you downloaded jFM-nolibs-xxx.zip, copy the
+commons-fileupload, commons-io and jakarta-taglibs-standard-1.1.0 to
+jFM/WEB-INF/lib<br>
+  </li>
+</ol>
+<h3><a name="FindingFolders">Finding Folders<br>
+</a></h3>
+<p>
+</p>
+jFM always displays one folder's contents.<br>
+<br>
+There are two ways to specify the folder.<br>
+<br>
+<h4>folder address as real path (path addressing)<br>
+</h4>
+enter a folder address as real path in the file system<br>
+<br>
+http://<em>yourhost.com</em>/jFM/<span style="color: rgb(255, 0, 0);">path</span><span
+ style="color: rgb(51, 102, 255);">/<em>a/path</em>/</span><br>
+<br>
+will access<br>
+<br>
+$<em>filebase</em><span style="color: rgb(255, 0, 0);"></span><span
+ style="color: rgb(51, 102, 255);">/<em>a/path</em>/</span><br>
+<br>
+Where filebase is a context-param in WEB-INF/web.xml, it will always be
+prepended to
+entered paths. So you can restrict path addressing to a subdirectory of
+the
+filesystem.<br>
+<br>
+e.g. if filebase is <span style="color: rgb(0, 102, 0);">c:/</span><br>
+<br>
+http://localhost:8080/jFM/<span style="color: rgb(255, 0, 0);">path</span><span
+ style="color: rgb(51, 102, 255);">/jakarta-tomcat-5.0.19/webapps/tomcat-docs/<br>
+<br>
+</span>will access a file system folder <span
+ style="color: rgb(0, 102, 0);">c:</span><span
+ style="color: rgb(51, 102, 255);">/jakarta-tomcat-5.0.19/</span><span
+ style="color: rgb(51, 102, 255);">webapps/tomcat-docs/</span><span
+ style="color: rgb(51, 102, 255);"> </span><br>
+<br>
+<br>
+Files will be downloadable as application/x-binary via jFM.<br>
+<br>
+<h4>folder addresses as
+virtual path (context adressing)</h4>
+enter a folder address as a context address&nbsp; like<br>
+<br>
+http://localhost:8080/jFM/<span style="color: rgb(255, 0, 0);">ctx</span><span
+ style="color: rgb(51, 102, 255);">/tomcat-docs/<br>
+</span><span style="color: rgb(51, 102, 255);"><br>
+</span>to access a folder containing the context <span
+ style="color: rgb(51, 102, 255);">/tomcat-docs</span> (this might be
+the real file system folder <span style="color: rgb(51, 102, 255);">/jakarta-tomcat-5.0.19/</span><span
+ style="color: rgb(51, 102, 255);">webapps/tomcat-docs/</span>)<span
+ style="color: rgb(51, 102, 255);"> </span><br>
+<br>
+This will only work, if jFM is allowed to access other contexts. For
+this the
+jfm.xml file must be copied to $CATALINA_BASE/conf/Catalina/localhost
+and Tomcat must be restarted.<br>
+<br>
+An alternative to this is to specify in server.xml the line<br>
+&lt;Context path="/jFM" docBase="jFM" <span
+ style="color: rgb(255, 0, 0);">crossContext="true"</span> /&gt;<br>
+<br>
+If you cannot enable crossContext="true", there is also the possibility
+of specifying a mapping between context name and real path via the
+<em>dirmappings </em>context-param in WEB-INF/web.xml<br>
+<br>
+Files will be downloadable as usual via Tomcat, with exception of files
+in WEB-INF which will be downloadable as application/x-binary via jFM.<br>
+<h3><a name="Security">Security</a></h3>
+<br>
+jFM can be secured with the standard web application security.<br>
+<br>
+For this, remove the comment around the <em>&lt;security-constraint&gt;</em>
+entry in jFM/WEB-INF/web.xml and only users in role <em>manager </em>will
+have access.<br>
+<br>
+If your webmaster insists on running Tomcat with a security manager,
+he should add the following entry to
+$CATALINA_BASE/conf/catalina.policy<br>
+<br>
+grant codeBase "file:${catalina.home}/webapps/jFM/WEB-INF/-" {<br>
+&nbsp;&nbsp;&nbsp; permission java.io.FilePermission "<span
+ style="color: rgb(255, 0, 0);">d:${/}-</span>", "read,write,delete";<br>
+&nbsp;&nbsp;&nbsp; permission java.net.SocketPermission "*:80",
+"connect";<br>
+};<br>
+<br>
+FilePermission allows access to the filesystem part below the given <span
+ style="color: rgb(255, 0, 0);">path</span>.<br>
+<br>
+The SocketPermission is needed for the <em>Get file from URL</em>
+feature of jFM.
+<p class="lastmod">Last modification 2004-06-01</p>
+<p class="copyright">Copyright &copy; 2004 <a href="contact.html">J&uuml;rgen
+Weber</a></p>
+</body>
+</html>
