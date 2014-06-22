@@ -3,6 +3,8 @@
 <html>
 <head>
   <title>jFM - File Manager</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=UTF-8">
   <link rel="stylesheet" type="text/css" href="${url}/styles/jFM.css" />
   <link rel="shortcut icon" href="img/folder.gif" type="image/gif" /> 
 </head>
@@ -27,7 +29,7 @@
 <table border="1" cellpadding="3" cellspacing="0">
 <tbody>
 <tr>
-<td colspan="5" class="title">
+<td colspan="6" class="title">
 
 <img src="${url}/img/openfolder.gif" title="current folder" width="24" height="24" alt="DIR" border="0">
 
@@ -96,6 +98,9 @@ Check all
 
 </td>
 <td class="header-left"><small>Type</small></td>
+
+<td class="header-left"><small>Attributes</small></td>
+
 <td class="header-center"><small>Size</small>
 &nbsp;
 <a href="${self}${path}?sort=sd">
@@ -150,6 +155,8 @@ Check all
 </c:choose>  </small></td>
 <td class="row-center">${file.type}</td>
 
+<td class="row-center">${file.attributes}</td>
+
 <td class="row-center">${file.size} </td>
 
 <td class="row-center">${file.lastModified}</td>
@@ -162,7 +169,7 @@ Check all
 
 
 <tr>
-<td colspan="5" class="header-left">Action on selected Files</td>
+<td colspan="6" class="header-left">Action on selected Files</td>
 </tr>
 
 
@@ -200,6 +207,10 @@ Check all
 <td class="row-left">type YES <input name="confirm" type="text" size="3" title="Confirm with YES"></td>
 </tr>
 
+<tr>
+<td class="row-right"> <input type="submit" name="command" value="Chmod" title="Chmod selected files"></td> 
+<td class="row-left">to <input name="chmodto" type="text" size="9" title="like rwxr-xr-x"></td>
+</tr>
 
 
 
@@ -300,7 +311,7 @@ File upload and unzip to current directory
 <tbody>
 <tr>
 
-<td class="row-left"><small><a href="http://jfm.dev.java.net/" title="http://jfm.dev.java.net/">jFM ${version}</a> Copyright &copy; 2004 Juergen Weber</small></td>
+<td class="row-left"><small><a href="http://jfm.dev.java.net/" title="http://jfm.dev.java.net/">jFM ${version}</a> Copyright &copy; 2004,2014 Jürgen Weber</small></td>
 
 <td class="row-right"><small>jFM running on ${serverInfo}</small></td>
 
