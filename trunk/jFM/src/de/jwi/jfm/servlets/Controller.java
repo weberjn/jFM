@@ -292,6 +292,8 @@ public class Controller extends HttpServlet
 
         request.setAttribute("version", version);
 
+        request.setAttribute("javaversion", System.getProperty("java.version"));
+        
         request.setAttribute("serverInfo", getServletContext().getServerInfo());
 
         request.setAttribute("url", contextPath);

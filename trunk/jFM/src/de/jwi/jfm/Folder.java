@@ -127,6 +127,11 @@ public class Folder
 	{
 
 		children = myFile.listFiles();
+		
+		if (children == null)
+		{
+			return; // Windows special folders
+		}
 
 		wrappers = new FileWrapper[children.length];
 
