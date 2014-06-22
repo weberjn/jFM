@@ -1,3 +1,7 @@
+Version 0.9.6, 2014-06-22
+- get/set Unix Filepermissions
+- require Java 1.7
+
 Version 0.9.5a, 2005-03-28
 - relativ copy/move with /path/ should work now
 
