@@ -23,7 +23,7 @@ package de.jwi.jfm;
  */
 
 /**
- * @author Jürgen Weber
+ * @author JÃ¼rgen Weber
  * Source file created on 30.03.2004
  *
  */

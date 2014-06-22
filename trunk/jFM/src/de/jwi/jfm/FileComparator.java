@@ -28,7 +28,7 @@ import java.util.Comparator;
 
 
 /**
- * @author Jürgen Weber
+ * @author JÃ¼rgen Weber
  * Source file created on 08.03.2004
  */
 public class FileComparator implements Comparator

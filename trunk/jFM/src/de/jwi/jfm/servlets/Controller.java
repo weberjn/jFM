@@ -51,7 +51,7 @@ import de.jwi.servletutil.PathHelper;
 import de.jwi.servletutil.RealPath;
 
 /**
- * @author Jürgen Weber 
+ * @author JÃ¼rgen Weber 
  * Source file created on 26.03.2004
  *  
  */

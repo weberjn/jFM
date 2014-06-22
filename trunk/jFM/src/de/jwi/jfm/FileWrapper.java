@@ -31,7 +31,7 @@ import java.util.Date;
 import org.apache.commons.io.FileUtils;
 
 /**
- * @author Jürgen Weber
+ * @author JÃ¼rgen Weber
  * Source file created on 27.03.2004
  */
 public class FileWrapper

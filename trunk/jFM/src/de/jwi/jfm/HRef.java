@@ -23,7 +23,7 @@ package de.jwi.jfm;
  */
 
 /**
- * @author Jürgen Weber
+ * @author JÃ¼rgen Weber
  * Source file created on 27.03.2004
  */
 public class HRef

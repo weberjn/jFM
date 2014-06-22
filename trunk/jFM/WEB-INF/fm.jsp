@@ -4,6 +4,7 @@
 <head>
   <title>jFM - File Manager</title>
   <link rel="stylesheet" type="text/css" href="${url}/styles/jFM.css" />
+  <link rel="shortcut icon" href="img/folder.gif" type="image/gif" /> 
 </head>
 
 
