@@ -33,7 +33,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * @author Jürgen Weber
+ * @author JÃ¼rgen Weber
  * Source file created on 12.03.2004
  *  
  */

@@ -14,11 +14,11 @@
 
 	<property file="${webinf}/version.properties" />
 
-	<echo message="tomcat5: ${TOMCAT5}" />
+	<echo message="tomcat: ${TOMCAT}" />
 
 	<path id="project.class.path">
-		<pathelement location="${TOMCAT5}/common/lib/servlet-api.jar" />
-		<pathelement location="${TOMCAT5}/common/lib/jsp-api.jar" />
+		<pathelement location="${TOMCAT}/lib/servlet-api.jar" />
+		<pathelement location="${TOMCAT}/lib/jsp-api.jar" />
 		<fileset dir="${lib}">
 			<include name="*.jar" />
 		</fileset>
@@ -27,7 +27,7 @@
 
 	<target name="init">
 
-		<fail unless="TOMCAT5" message="Please set the TOMCAT5 property either in the basedir/../build.properties file or in an environment variable TOMCAT5" />
+		<fail unless="TOMCAT" message="Please set the TOMCAT property either in the basedir/../build.properties file or in an environment variable TOMCAT5" />
 
 		<mkdir dir="${build}" />
 		<mkdir dir="${dist}" />

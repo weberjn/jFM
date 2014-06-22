@@ -26,7 +26,7 @@ package de.jwi.servletutil;
 
 
 /**
- * @author Jürgen Weber
+ * @author JÃ¼rgen Weber
  * Source file created on 05.04.2004
  * 
  * This is just a DTO.
