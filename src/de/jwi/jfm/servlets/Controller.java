@@ -91,6 +91,8 @@ public class Controller extends HttpServlet
     public static final int FTPUP_ACTION = 10;
     
     public static final int JOIN_ACTION = 11;
+    
+    public static final int CHMOD_ACTION = 12;
 
     private Properties dirmapping = null;
 
@@ -407,6 +409,11 @@ public class Controller extends HttpServlet
         {
             target = request.getParameter("moveto");
             action = MOVE_ACTION;
+        }
+        else if ("Chmod".equals(command))
+        {
+            target = request.getParameter("chmodto");
+            action = CHMOD_ACTION;
         }
         else if ("DeleteRecursively".equals(command))
         {
