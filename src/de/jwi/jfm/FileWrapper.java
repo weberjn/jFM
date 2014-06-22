@@ -40,7 +40,9 @@ import java.nio.file.attribute.PosixFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
@@ -67,7 +69,7 @@ public class FileWrapper
 		this.file = file;
 		this.url = url;
 		this.path = path;
-		dateFormat = DateFormat.getDateTimeInstance();
+		dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 	}
 
 	public File getFile()
@@ -121,7 +123,9 @@ public class FileWrapper
 		{
 			l = FileUtils.sizeOfDirectory(file);
 		}
-		return FileUtils.byteCountToDisplaySize(l);
+		
+		String s = String.format(Locale.US, "%,d",l);
+		return s;
 	}
 
 	public boolean getIsDirectory()

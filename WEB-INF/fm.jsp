@@ -6,7 +6,7 @@
   <meta http-equiv="Content-Type"
  content="text/html; charset=UTF-8">
   <link rel="stylesheet" type="text/css" href="${url}/styles/jFM.css" />
-  <link rel="shortcut icon" href="img/folder.gif" type="image/gif" /> 
+  <link rel="shortcut icon" href="${url}/img/folder.gif" type="image/gif" /> 
 </head>
 
 
@@ -99,7 +99,7 @@ Check all
 </td>
 <td class="header-left"><small>Type</small></td>
 
-<td class="header-left"><small>Attributes</small></td>
+<td class="header-center"><small>Attributes</small></td>
 
 <td class="header-center"><small>Size</small>
 &nbsp;
@@ -155,9 +155,9 @@ Check all
 </c:choose>  </small></td>
 <td class="row-center">${file.type}</td>
 
-<td class="row-center">${file.attributes}</td>
+<td class="row-center-mono">${file.attributes}</td>
 
-<td class="row-center">${file.size} </td>
+<td class="row-right">${file.size} </td>
 
 <td class="row-center">${file.lastModified}</td>
 
@@ -311,9 +311,9 @@ File upload and unzip to current directory
 <tbody>
 <tr>
 
-<td class="row-left"><small><a href="http://jfm.dev.java.net/" title="http://jfm.dev.java.net/">jFM ${version}</a> Copyright &copy; 2004,2014 Jürgen Weber</small></td>
+<td class="row-left"><small><a href="http://jfm.dev.java.net/" title="http://jfm.dev.java.net/">jFM ${version}</a> Copyright &copy; 2004,2014 J&uuml;rgen Weber</small></td>
 
-<td class="row-right"><small>jFM running on ${serverInfo}</small></td>
+<td class="row-right"><small>jFM running on Java ${javaversion}, ${serverInfo}</small></td>
 
 </tr>
 
