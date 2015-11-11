@@ -50,8 +50,7 @@ import org.apache.commons.io.FileUtils;
 /**
  * @author Jürgen Weber Source file created on 27.03.2004
  */
-public class FileWrapper
-{
+public class FileWrapper {
 
 	private Folder folder;
 
@@ -63,8 +62,7 @@ public class FileWrapper
 
 	private DateFormat dateFormat;
 
-	FileWrapper(Folder folder, File file, String url, String path)
-	{
+	FileWrapper(Folder folder, File file, String url, String path) {
 		this.folder = folder;
 		this.file = file;
 		this.url = url;
@@ -72,71 +70,55 @@ public class FileWrapper
 		dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 	}
 
-	public File getFile()
-	{
+	public File getFile() {
 		return file;
 	}
 
-	public String getUrl()
-	{
+	public String getUrl() {
 		return url;
 	}
 
-	public String getId()
-	{
+	public String getId() {
 		String s = null;
-		try
-		{
-			s = URLEncoder.encode(
-					file.getName() + "." + Long.toString(file.lastModified()),
-					"UTF-8");
-		}
-		catch (UnsupportedEncodingException e)
-		{
+		try {
+			s = URLEncoder.encode(file.getName() + "." + Long.toString(file.lastModified()), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
 		}
 		return s;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return file.getName();
 	}
 
 	// return the virtual path
-	public String getPath()
-	{
+	public String getPath() {
 		return path;
 	}
 
-	public String toString()
-	{
+	public String toString() {
 		return file.toString();
 	}
 
-	public String getSize()
-	{
+	public String getSize() {
 		long l;
 
 		l = file.length();
 
-		if (file.isDirectory() && folder.isCalcRecursiveFolderSize())
-		{
+		if (file.isDirectory() && folder.isCalcRecursiveFolderSize()) {
 			l = FileUtils.sizeOfDirectory(file);
 		}
-		
-		String s = String.format(Locale.US, "%,d",l);
+
+		String s = String.format(Locale.US, "%,d", l);
 		return s;
 	}
 
-	public boolean getIsDirectory()
-	{
+	public boolean getIsDirectory() {
 		return file.isDirectory();
 	}
 
-	public boolean getIsZip()
-	{
-		if (file.isDirectory())
-		{
+	public boolean getIsZip() {
+		if (file.isDirectory()) {
 			return false;
 		}
 		String s = file.getName().toLowerCase();
@@ -144,63 +126,56 @@ public class FileWrapper
 		return s.endsWith(".zip");
 	}
 
-	public String getType() throws IOException
-	{
+	public String getType() throws IOException {
 		return file.isDirectory() ? "dir" : "file";
 	}
 
-	public String getLastModified()
-	{
+	public String getLastModified() {
 		long l = file.lastModified();
 		String s = dateFormat.format(new Date(l));
 		return s;
 	}
 
-	public String getAttributes() throws IOException
-	{
+	public String getAttributes() throws IOException {
 		FileSystem fileSystem = FileSystems.getDefault();
 		Set<String> fileSystemViews = fileSystem.supportedFileAttributeViews();
 
 		Path p = file.toPath();
 
-		if (fileSystemViews.contains("posix"))
-		{
-			Set<PosixFilePermission> posixFilePermissions = Files
-					.getPosixFilePermissions(p, LinkOption.NOFOLLOW_LINKS);
+		if (fileSystemViews.contains("posix")) {
+			Set<PosixFilePermission> posixFilePermissions = Files.getPosixFilePermissions(p, LinkOption.NOFOLLOW_LINKS);
 
-			PosixFileAttributes attrs = Files.getFileAttributeView(p,
-					PosixFileAttributeView.class).readAttributes();
+			PosixFileAttributes attrs = Files.getFileAttributeView(p, PosixFileAttributeView.class).readAttributes();
 
 			String owner = attrs.owner().toString();
 			String group = attrs.group().toString();
 
-			String permissions = PosixFilePermissions.toString(attrs
-					.permissions());
+			String permissions = PosixFilePermissions.toString(attrs.permissions());
 
 			String res = String.format("%s %s %s", permissions, owner, group);
 			return res;
-		}
-		else if (fileSystemViews.contains("dos"))
-		{
+		} else if (fileSystemViews.contains("dos")) {
 			StringWriter sw = new StringWriter();
 			DosFileAttributeView attributeView = Files.getFileAttributeView(p, DosFileAttributeView.class);
-			DosFileAttributes dosFileAttributes = attributeView.readAttributes();
-			if (dosFileAttributes.isArchive())
-			{
-				sw.append('A');
+			DosFileAttributes dosFileAttributes = null;
+			try {
+				dosFileAttributes = attributeView.readAttributes();
+				if (dosFileAttributes.isArchive()) {
+					sw.append('A');
+				}
+				if (dosFileAttributes.isHidden()) {
+					sw.append('H');
+				}
+				if (dosFileAttributes.isReadOnly()) {
+					sw.append('R');
+				}
+				if (dosFileAttributes.isSystem()) {
+					sw.append('S');
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			if (dosFileAttributes.isHidden())
-			{
-				sw.append('H');
-			}
-			if (dosFileAttributes.isReadOnly())
-			{
-				sw.append('R');
-			}
-			if (dosFileAttributes.isSystem())
-			{
-				sw.append('S');
-			}
+
 			return sw.toString();
 		}
 		return "";
