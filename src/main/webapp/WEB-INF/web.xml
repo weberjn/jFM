@@ -61,7 +61,7 @@
     
     
     <!-- remove the comment around <security-constraint> to restrict access 
-    to jFM to users with role manager -->
+    to jFM to users with role jfmuser -->
     
  <!--
      <security-constraint>

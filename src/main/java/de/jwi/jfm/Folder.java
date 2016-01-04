@@ -38,7 +38,6 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.attribute.DosFileAttributes;
 import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
@@ -172,6 +171,8 @@ public class Folder
 		parentLinks[pp.length - 1] = new HRef(pp[pp.length - 1], null);
 
 		parents = Arrays.asList(parentLinks);
+		
+		sort(FileComparator.SORT_NAME_UP);
 	}
 
 	public List getFiles()
