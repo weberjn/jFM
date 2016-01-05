@@ -26,8 +26,7 @@
 
 <form name="files" action="${self}${path}" method="get">
 
-<table border="1" cellpadding="3" cellspacing="0">
-<tbody>
+<table border="1">
 <tr>
 <td colspan="6" class="title">
 
@@ -65,10 +64,16 @@
 
 </td>
 
-
 </tr>
+
+</table>
+
+
+<table class="files">
+<thead>
+
 <tr>
-<td class="header-right" style="width: 10%;">
+<td class="header-center" style="width: 5%;">
 <script>
 function doChkAll(oChkBox) {
     var bChecked = oChkBox.checked;
@@ -87,29 +92,30 @@ Check all
 
 
 
-<td class="header-left"><small>Filename</small>&nbsp;
-<a href="${self}${path}?sort=nd">
-<img src="${url}/img/shift-down.gif" title="sort by name ascending" width="16" height="16" alt="SORTDN" border="0"></a>
-
+<td class="header-left" style="width: 40%;"><small>Filename</small>&nbsp;
+<a href="${self}${path}?sort=nu">
+<img src="${url}/img/shift-up.gif" title="sort by name ascending" width="16" height="16" alt="SORTUP" border="0"></a>
 &nbsp;
 
-<a href="${self}${path}?sort=nu">
-<img src="${url}/img/shift-up.gif" title="sort by name descending" width="16" height="16" alt="SORTUP" border="0"></a>
+<a href="${self}${path}?sort=nd">
+
+<img src="${url}/img/shift-down.gif" title="sort by name descending" width="16" height="16" alt="SORTDN" border="0"></a>
 
 </td>
-<td class="header-left"><small>Type</small></td>
+<td class="header-center" style="width: 3em;"><small>Type</small></td>
 
 <td class="header-center"><small>Attributes</small></td>
 
-<td class="header-center"><small>Size</small>
+<td class="header-center" style="width: 10%;"><small>Size</small>
 &nbsp;
-<a href="${self}${path}?sort=sd">
-<img src="${url}/img/shift-down.gif" title="sort by size ascending" width="16" height="16" alt="SORTDN" border="0"></a>
-
-&nbsp;
-
 <a href="${self}${path}?sort=su">
-<img src="${url}/img/shift-up.gif" title="sort by size descending" width="16" height="16" alt="SORTUP" border="0"></a>
+<img src="${url}/img/shift-up.gif" title="sort by size ascending" width="16" height="16" alt="SORTUP" border="0"></a>
+
+&nbsp;
+
+<a href="${self}${path}?sort=sd">
+<img src="${url}/img/shift-down.gif" title="sort by size descending" width="16" height="16" alt="SORTDN" border="0"></a>
+
 
 &nbsp;
 
@@ -117,16 +123,20 @@ Check all
 <img src="${url}/img/sum.gif" title="display folder tree size" width="16" height="16" alt="SUM" border="0"></a>
 
 </td>
-<td class="header-center"><small>Last Modification</small>&nbsp;
-<a href="${self}${path}?sort=dd">
-<img src="${url}/img/shift-down.gif" title="sort by date ascending" width="16" height="16" alt="SORTDN" border="0"></a>
+<td class="header-center" style="width: 15%;"><small>Last Modification</small>&nbsp;
+<a href="${self}${path}?sort=du">
+<img src="${url}/img/shift-up.gif" title="sort by date ascending" width="16" height="16" alt="SORTUP" border="0"></a>
 &nbsp;
 
-<a href="${self}${path}?sort=du">
-<img src="${url}/img/shift-up.gif" title="sort by date descending" width="16" height="16" alt="SORTUP" border="0"></a>
+<a href="${self}${path}?sort=dd">
 
+<img src="${url}/img/shift-down.gif" title="sort by date descending" width="16" height="16" alt="SORTDN" border="0"></a>
 </td>
 </tr>
+
+</thead>
+
+<tbody>
 
 <c:forEach var="file" items="${folder.files}">
 
@@ -167,7 +177,11 @@ Check all
 
 </c:forEach>
 
+</tbody>
+</table>
 
+<table>
+<tfoot>
 <tr>
 <td colspan="6" class="header-left">Action on selected Files</td>
 </tr>
@@ -209,19 +223,18 @@ Check all
 
 <tr>
 <td class="row-right"> <input type="submit" name="command" value="Chmod" title="Chmod selected files"></td> 
-<td class="row-left">to <input name="chmodto" type="text" size="9" title="like rwxr-xr-x"></td>
+<td class="row-left">to <input name="chmodto" type="text" size="9" title="format: rwxr-xr-x"></td>
 </tr>
 
 
 
-</tbody>
+</tfoot>
 </table>
 
 </form>
 
 
-<table style="width: 60%; text-align: left;" border="1" cellpadding="2"
-cellspacing="2">
+<table style="width: 60%; text-align: left;" border="1">
 <tbody>
 <tr>
 
@@ -245,7 +258,7 @@ cellspacing="2">
 <form action="${self}${path}"
  method="post" enctype="multipart/form-data">
 
-<table border="1" cellpadding="3" cellspacing="0">
+<table border="1">
 <tbody>
 <tr>
 
@@ -307,7 +320,7 @@ File upload and unzip to current directory
 
 </c:if>
 
-<table border="0" cellpadding="3" cellspacing="0">
+<table border="0">
 <tbody>
 <tr>
 

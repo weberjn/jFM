@@ -13,7 +13,16 @@ HR {color : #525D76;}
  table {
     width: 100%;
     empty-cells: show;
+    border-collapse: collapse;
+    table-layout: fixed;
   }
+
+  table.files
+  {
+  	border: 1px solid black;
+  }
+  
+  
   td.page-title {
     text-align: center;
     vertical-align: top;
@@ -76,19 +85,21 @@ HR {color : #525D76;}
     background: white;
   }
   
-  TH {
+  th {
     text-align: center;
     vertical-align: top;
     font-family:sans-serif,Tahoma,Arial;
     font-weight: bold;
     background: #FFDC75;
   }
-  TD {
+  td {
     text-align: center;
     vertical-align: middle;
     font-family:sans-serif,Tahoma,Arial;
     color: black;
+    border: 1px solid black;
     background: white;
+    word-wrap: break-word;
   }
   
 
