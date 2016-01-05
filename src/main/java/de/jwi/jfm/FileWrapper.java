@@ -109,7 +109,10 @@ public class FileWrapper {
 			l = FileUtils.sizeOfDirectory(file);
 		}
 
-		String s = String.format(Locale.US, "%,d", l);
+		//String s = String.format(Locale.US, "%,d", l);
+		
+		String s = humanReadableByteCount(l, true);
+		
 		return s;
 	}
 
@@ -127,7 +130,7 @@ public class FileWrapper {
 	}
 
 	public String getType() throws IOException {
-		return file.isDirectory() ? "dir" : "file";
+		return file.isDirectory() ? "d" : "";
 	}
 
 	public String getLastModified() {
@@ -181,4 +184,13 @@ public class FileWrapper {
 		return "";
 	}
 
+	// from http://stackoverflow.com/questions/3758606/how-to-convert-byte-size-into-human-readable-format-in-java/3758880
+	public static String humanReadableByteCount(long bytes, boolean si) {
+	    int unit = si ? 1000 : 1024;
+	    if (bytes < unit) return bytes + " B";
+	    int exp = (int) (Math.log(bytes) / Math.log(unit));
+	    String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + (si ? "" : "i");
+	    return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
+	}
+	
 }
