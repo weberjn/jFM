@@ -145,6 +145,7 @@ public class FileWrapper {
 
 		Path p = file.toPath();
 
+		try {
 		if (fileSystemViews.contains("posix")) {
 			Set<PosixFilePermission> posixFilePermissions = Files.getPosixFilePermissions(p, LinkOption.NOFOLLOW_LINKS);
 
@@ -161,7 +162,7 @@ public class FileWrapper {
 			StringWriter sw = new StringWriter();
 			DosFileAttributeView attributeView = Files.getFileAttributeView(p, DosFileAttributeView.class);
 			DosFileAttributes dosFileAttributes = null;
-			try {
+
 				dosFileAttributes = attributeView.readAttributes();
 				if (dosFileAttributes.isArchive()) {
 					sw.append('A');
@@ -175,12 +176,13 @@ public class FileWrapper {
 				if (dosFileAttributes.isSystem()) {
 					sw.append('S');
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 
 			return sw.toString();
 		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return "";
 	}
 
