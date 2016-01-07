@@ -28,7 +28,7 @@
 
 <table border="1">
 <tr>
-<td colspan="6" class="title">
+<td class="title" style="border-right-width: 0;">
 
 <img src="${url}/img/openfolder.gif" title="current folder" width="24" height="24" alt="DIR" border="0">
 
@@ -63,7 +63,7 @@
   <a href="${self}${path}"><img src="${url}/img/reload.gif" title="reload folder" width="24" height="24" alt="RELOAD" border="0"></a>
 
 </td>
-
+<td class="title" style="border-left-width: 0; text-align: right;">${date}</td>
 </tr>
 
 </table>
