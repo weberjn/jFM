@@ -53,33 +53,25 @@ import org.apache.commons.io.FileUtils;
 public class FileWrapper {
 
 	private Folder folder;
+	int index;
 
-	private File file;
-
-	private String url;
-
-	private String path;
-
-	private DateFormat dateFormat;
-
-	FileWrapper(Folder folder, File file, String url, String path) {
+	FileWrapper(Folder folder, int index) {
 		this.folder = folder;
-		this.file = file;
-		this.url = url;
-		this.path = path;
-		dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+		this.index = index;
 	}
 
 	public File getFile() {
-		return file;
+		return folder.children[index];
 	}
 
 	public String getUrl() {
-		return url;
+		File file = getFile();
+		return folder.url + file.getName();
 	}
 
 	public String getId() {
 		String s = null;
+		File file = getFile();
 		try {
 			s = URLEncoder.encode(file.getName() + "." + Long.toString(file.lastModified()), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
@@ -88,39 +80,42 @@ public class FileWrapper {
 	}
 
 	public String getName() {
-		return file.getName();
+		return getFile().getName();
 	}
 
 	// return the virtual path
 	public String getPath() {
-		return path;
+		File file = getFile();
+		return folder.path + file.getName();
 	}
 
 	public String toString() {
-		return file.toString();
+		return getFile().toString();
 	}
 
 	public String getSize() {
 		long l;
 
+		File file = getFile();
+		
 		l = file.length();
 
 		if (file.isDirectory() && folder.isCalcRecursiveFolderSize()) {
 			l = FileUtils.sizeOfDirectory(file);
 		}
 
-		//String s = String.format(Locale.US, "%,d", l);
-		
 		String s = humanReadableByteCount(l, true);
 		
 		return s;
 	}
 
 	public boolean getIsDirectory() {
+		File file = getFile();
 		return file.isDirectory();
 	}
 
 	public boolean getIsZip() {
+		File file = getFile();
 		if (file.isDirectory()) {
 			return false;
 		}
@@ -130,12 +125,14 @@ public class FileWrapper {
 	}
 
 	public String getType() throws IOException {
+		File file = getFile();
 		return file.isDirectory() ? "d" : "";
 	}
 
 	public String getLastModified() {
+		File file = getFile();
 		long l = file.lastModified();
-		String s = dateFormat.format(new Date(l));
+		String s = folder.dateFormat.format(new Date(l));
 		return s;
 	}
 
@@ -143,6 +140,7 @@ public class FileWrapper {
 		FileSystem fileSystem = FileSystems.getDefault();
 		Set<String> fileSystemViews = fileSystem.supportedFileAttributeViews();
 
+		File file = getFile();
 		Path p = file.toPath();
 
 		try {
