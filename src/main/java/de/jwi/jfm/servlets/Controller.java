@@ -63,8 +63,9 @@ public class Controller extends HttpServlet {
 	private static final String FILE_DOWNLOAD_SERVLET = "/dlf";
 
 	private static String version = "unknown";
+	private static String builddate = "unknown";
 
-	private static final String VERSIONCONFIGFILE = "/META-INF/maven/de.jwi/jFM/pom.properties";
+	private static final String VERSIONCONFIGFILE = "/version.txt";
 
 	public static final int NOP_ACTION = 0;
 
@@ -121,16 +122,23 @@ public class Controller extends HttpServlet {
 		}
 
 		try {
-			InputStream is = getServletContext().getResourceAsStream(VERSIONCONFIGFILE);
+			InputStream is = getClass().getResourceAsStream(VERSIONCONFIGFILE);
 
 			if (is != null) {
 				Properties versionProperties = new Properties();
 				versionProperties.load(is);
-
+				is.close();
+				
 				s = versionProperties.getProperty("version");
 				if (null != s) {
 					version = s;
 				}
+				
+				s = versionProperties.getProperty("build.date");
+				if (null != s) {
+					builddate = s;
+				}
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace(System.err);
@@ -250,6 +258,8 @@ public class Controller extends HttpServlet {
 		request.setAttribute("self", self);
 
 		request.setAttribute("version", version);
+		
+		request.setAttribute("builddate", builddate);
 
 		request.setAttribute("javaversion", System.getProperty("java.version"));
 
