@@ -46,11 +46,8 @@ import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
 
-import de.jwi.jfm.FileComparator;
 import de.jwi.jfm.Folder;
 import de.jwi.jfm.OutOfSyncException;
-import de.jwi.servletutil.PathHelper;
-import de.jwi.servletutil.RealPath;
 
 /**
  * @author Jürgen Weber Source file created on 26.03.2004
@@ -157,9 +154,13 @@ public class Controller extends HttpServlet {
 		String contextPath = null;
 		String pathInfo = null;
 		Folder folder = null;
+		String queryString = null;
+		
 		try {
 			contextPath = request.getContextPath();
 			String servletPath = request.getServletPath();
+			String method = request.getMethod();
+			boolean formPosted = "POST".equals(method);
 
 			pathInfo = request.getPathInfo();
 
@@ -171,19 +172,27 @@ public class Controller extends HttpServlet {
 				return;
 			}
 
-			if (CTX_DOWNLOAD_SERVLET.equals(servletPath) || FILE_DOWNLOAD_SERVLET.equals(servletPath)) {
-				doDownload(request, response);
+			File f = new File(filebase, pathInfo);
+
+			if (!f.exists()) {
+
+				PrintWriter writer = response.getWriter();
+				writer.print(contextPath + pathInfo + " does not exist.");
+
 				return;
 			}
-
-			boolean isFileSystemPath = PATH_URL_SERVLET.equals(servletPath);
+			
+			if (f.isFile()) {
+				doDownload(request, response, f);
+				return;
+			}
 
 			if (!pathInfo.endsWith("/")) {
 				response.sendRedirect(request.getRequestURL() + "/");
 				return;
 			}
 
-			String queryString = request.getQueryString();
+			queryString = request.getQueryString();
 
 			String pathTranslated = request.getPathTranslated();
 			String requestURI = request.getRequestURI();
@@ -191,34 +200,10 @@ public class Controller extends HttpServlet {
 
 			self = contextPath + servletPath;
 
-			RealPath theRealPath;
-
-			theRealPath = isFileSystemPath ? PathHelper.getFileRealPath(filebase, pathInfo)
-					: PathHelper.getHttpRealPath(getServletContext(), pathInfo, dirmapping);
-
-			if (null == theRealPath) {
-				response.sendError(HttpServletResponse.SC_NOT_FOUND, request.getRequestURI());
-				return;
-			}
-
-			String realPath = theRealPath.getRealPath();
-
 			String fileURL = requestURI.replaceFirst(contextPath, "");
 			fileURL = fileURL.replaceFirst(servletPath, "");
 
-			String fileViewUrl;
-
-			if (theRealPath.isHttpPath()) {
-				if (pathInfo.startsWith(theRealPath.getContext() + "/WEB-INF")) {
-					fileViewUrl = request.getContextPath() + CTX_DOWNLOAD_SERVLET + pathInfo;
-				} else {
-					fileViewUrl = fileURL;
-				}
-			} else {
-				fileViewUrl = request.getContextPath() + FILE_DOWNLOAD_SERVLET + pathInfo;
-			}
-
-			folder = new Folder(theRealPath, pathInfo, fileURL, fileViewUrl);
+			folder = new Folder(f, pathInfo, fileURL);
 
 			folder.load();
 
@@ -231,7 +216,7 @@ public class Controller extends HttpServlet {
 				} catch (Exception e) {
 					throw new ServletException(e.getMessage(), e);
 				}
-			} else if (null != queryString) {
+			} else if (formPosted || null != queryString) {
 				try {
 					actionresult = handleQuery(request, response, folder);
 				} catch (OutOfSyncException e) {
@@ -280,12 +265,21 @@ public class Controller extends HttpServlet {
 		request.setAttribute("folder", folder);
 
 		String forward = "/WEB-INF/fm.jsp";
+		
+		if (queryString != null)
+		{
+			// hide get query parameters
+//			response.sendRedirect(request.getRequestURL() + "");
+//			return;
+		}
 
 		RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher(forward);
 
 		requestDispatcher.forward(request, response);
 	}
 
+	
+	
 	private String handleQuery(HttpServletRequest request, HttpServletResponse response, Folder folder)
 			throws OutOfSyncException, IOException {
 		String rc = "";
@@ -307,24 +301,24 @@ public class Controller extends HttpServlet {
 		}
 		String sort = request.getParameter("sort");
 		if ("nd".equals(sort)) {
-			folder.sort(FileComparator.SORT_NAME_DOWN);
+			folder.sort(Folder.SORT_NAME_DOWN);
 			return "";
 		} else if ("nu".equals(sort)) {
-			folder.sort(FileComparator.SORT_NAME_UP);
+			folder.sort(Folder.SORT_NAME_UP);
 			return "";
 		} else if ("su".equals(sort)) {
-			folder.sort(FileComparator.SORT_SIZE_UP);
+			folder.sort(Folder.SORT_SIZE_UP);
 			return "";
 		} else if ("sd".equals(sort)) {
-			folder.sort(FileComparator.SORT_SIZE_DOWN);
+			folder.sort(Folder.SORT_SIZE_DOWN);
 			return "";
 		}
 
 		else if ("du".equals(sort)) {
-			folder.sort(FileComparator.SORT_DATE_UP);
+			folder.sort(Folder.SORT_DATE_UP);
 			return "";
 		} else if ("dd".equals(sort)) {
-			folder.sort(FileComparator.SORT_DATE_DOWN);
+			folder.sort(Folder.SORT_DATE_DOWN);
 			return "";
 		}
 
@@ -434,20 +428,8 @@ public class Controller extends HttpServlet {
 		return "";
 	}
 
-	public void doDownload(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String servletPath = request.getServletPath();
+	public void doDownload(HttpServletRequest request, HttpServletResponse response, File f) throws IOException {
 
-		String pathInfo = request.getPathInfo();
-
-		RealPath realPath = null;
-
-		if (CTX_DOWNLOAD_SERVLET.equals(servletPath)) {
-			realPath = PathHelper.getHttpRealPath(getServletContext(), pathInfo, dirmapping);
-		} else {
-			realPath = PathHelper.getFileRealPath(filebase, pathInfo);
-		}
-
-		File f = new File(realPath.getRealPath());
 		String name = f.getName();
 
 		String mimeType = getServletContext().getMimeType(name);

@@ -39,16 +39,4 @@
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src/main/webapp/fm.jsp</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/bea/domains/luna/applications/jFM/WEB-INF/fm.jsp</locationURI>
-		</link>
-		<link>
-			<name>src/main/webapp/jFM.css</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/bea/domains/luna/applications/jFM/styles/jFM.css</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>

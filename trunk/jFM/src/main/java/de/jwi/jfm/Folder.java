@@ -41,23 +41,28 @@ import java.nio.file.Path;
 import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.comparator.LastModifiedFileComparator;
+import org.apache.commons.io.comparator.NameFileComparator;
+import org.apache.commons.io.comparator.SizeFileComparator;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import de.jwi.ftp.FTPUploader;
 import de.jwi.jfm.servlets.Controller;
-import de.jwi.servletutil.RealPath;
 import de.jwi.zip.Unzipper;
 import de.jwi.zip.Zipper;
 
@@ -67,29 +72,35 @@ import de.jwi.zip.Zipper;
 public class Folder
 {
 
-	private RealPath realPath;
-
 	private boolean isNotInContext;
 
-	private String path;
+	String path;
 
-	private String url;
-
-	private String fileViewUrl;
+	String url;
 
 	private File myFile;
 
-	private File[] children;
+	File[] children;
 
 	private FileWrapper[] wrappers;
-
-	private Map nameToFile;
-
-	private List files;
+	
+	private Map<String,File> nameToFile;
+	
+	private List<FileWrapper> wrappersList;
 
 	private List parents;
 
+	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+	
 	private boolean calcRecursiveFolderSize = false;
+	
+	
+    public static final int SORT_NAME_UP = 1;
+    public static final int SORT_NAME_DOWN = 2;
+    public static final int SORT_DATE_UP = 3;
+    public static final int SORT_DATE_DOWN = 4;
+    public static final int SORT_SIZE_UP = 5;
+    public static final int SORT_SIZE_DOWN = 6;
 
 	public boolean isCalcRecursiveFolderSize()
 	{
@@ -106,22 +117,24 @@ public class Folder
 		// NOP
 	}
 
-	public Folder(RealPath realPath, String path, String url, String fileViewUrl)
+	public Folder(File f, String path, String url)
 			throws IOException
 	{
-		this.realPath = realPath;
+		myFile = f;
 		this.path = path;
 		this.url = url;
-		this.fileViewUrl = fileViewUrl;
-
-		myFile = new File(realPath.getRealPath());
 
 		if (!myFile.exists())
 		{
-			throw new IOException(path + " does not exist.");
+			throw new IOException(f.getPath() + " does not exist.");
 		}
 	}
 
+	public List<FileWrapper> getFiles()
+	{
+		return wrappersList;
+	}
+	
 	public void load()
 	{
 
@@ -133,23 +146,20 @@ public class Folder
 		}
 
 		wrappers = new FileWrapper[children.length];
-
-		nameToFile = new HashMap(children.length);
+		
+		nameToFile = new HashMap<String,File>(children.length);
 
 		for (int i = 0; i < children.length; i++)
 		{
 			String name = children[i].getName();
 
-			String u = children[i].isDirectory() ? url : fileViewUrl;
-
-			wrappers[i] = new FileWrapper(this, children[i], u + name, path
-					+ name);
-
+			wrappers[i] = new FileWrapper(this, i);
+			
 			nameToFile.put(name, children[i]);
 		}
 
-		files = Arrays.asList(wrappers);
-
+		wrappersList = Arrays.asList(wrappers);
+		
 		String[] pp = path.split("/");
 
 		if ("/".equals(path))
@@ -172,12 +182,7 @@ public class Folder
 
 		parents = Arrays.asList(parentLinks);
 		
-		sort(FileComparator.SORT_NAME_UP);
-	}
-
-	public List getFiles()
-	{
-		return files;
+		sort(SORT_NAME_UP);
 	}
 
 	private boolean checkFileName(String name)
@@ -294,31 +299,31 @@ public class Folder
 
 	public void sort(int mode)
 	{
-		Comparator c = null;
+		Comparator<File> c = null;
 
 		switch (mode)
 		{
-			case FileComparator.SORT_NAME_UP:
-				c = FileComparator.nameUpInstance;
+			case SORT_NAME_UP:
+				c = NameFileComparator.NAME_COMPARATOR;
 				break;
-			case FileComparator.SORT_NAME_DOWN:
-				c = FileComparator.nameDownInstance;
+			case SORT_NAME_DOWN:
+				c = NameFileComparator.NAME_REVERSE;
 				break;
-			case FileComparator.SORT_SIZE_UP:
-				c = FileComparator.sizeUpInstance;
+			case SORT_SIZE_UP:
+				c = SizeFileComparator.SIZE_COMPARATOR;
 				break;
-			case FileComparator.SORT_SIZE_DOWN:
-				c = FileComparator.sizeDownInstance;
+			case SORT_SIZE_DOWN:
+				c = SizeFileComparator.SIZE_REVERSE;
 				break;
-			case FileComparator.SORT_DATE_UP:
-				c = FileComparator.dateUpInstance;
+			case SORT_DATE_UP:
+				c = LastModifiedFileComparator.LASTMODIFIED_COMPARATOR;
 				break;
-			case FileComparator.SORT_DATE_DOWN:
-				c = FileComparator.dateDownInstance;
+			case SORT_DATE_DOWN:
+				c = LastModifiedFileComparator.LASTMODIFIED_REVERSE;
 				break;
 		}
 
-		Arrays.sort(wrappers, c);
+		Arrays.sort(children, c);
 	}
 
 	private String copyOrMove(boolean move, String[] selectedIDs, String target)

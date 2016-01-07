@@ -1,99 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
-    version="2.4">
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	version="2.4">
 
-    <display-name>jFM - Java File Manager</display-name>
-
-    
-    <!--
-    <context-param>
-    	<description>is prepended to file paths</description>
-    	<param-name>filebase</param-name>
-		<param-value>D:/</param-value>
-    </context-param>
-     -->
-     
-    <!--     
-    <context-param>
-    	<description>seperate with commas</description>
-    	<param-name>dirmappings</param-name>
-		<param-value>/=C:/java/jakarta-tomcat-5.0.19/webapps/ROOT,apache=D:/apache/htdocs</param-value>
-    </context-param>
-    -->
-    
-    <servlet>
-        <servlet-name>Controller</servlet-name>
-        <servlet-class>de.jwi.jfm.servlets.Controller</servlet-class>
-    </servlet>
+	<display-name>jFM - Java File Manager</display-name>
 
 
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-		<url-pattern>/path/*</url-pattern>
-    </servlet-mapping>
+	<!-- <context-param> <description>is prepended to file paths</description> 
+		<param-name>filebase</param-name> <param-value>D:/</param-value> </context-param> -->
 
-    
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-		<url-pattern>/ctx/*</url-pattern>
-    </servlet-mapping>
+	<!-- <context-param> <description>seperate with commas</description> <param-name>dirmappings</param-name> 
+		<param-value>/=C:/java/jakarta-tomcat-5.0.19/webapps/ROOT,apache=D:/apache/htdocs</param-value> 
+		</context-param> -->
 
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-		<url-pattern>/dlf/*</url-pattern>
-    </servlet-mapping>    
-    
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-		<url-pattern>/dlx/*</url-pattern>
-    </servlet-mapping>
+	<!--filter>
+		<filter-name>filter</filter-name>
+		<filter-class>de.jwi.jfm.filters.ServletFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping-->
 
-    <session-config>
-    	<session-timeout>5</session-timeout>
-    </session-config>    
-    
-    <welcome-file-list>
-    	<welcome-file>jFM.html</welcome-file>
-    </welcome-file-list>
-    
-    
-    <!-- remove the comment around <security-constraint> to restrict access 
-    to jFM to users with role jfmuser -->
-    
- <!--
-     <security-constraint>
-      <web-resource-collection>
-         <web-resource-name>jFM</web-resource-name>
-         <url-pattern>/path/*</url-pattern>
-	 <url-pattern>/ctx/*</url-pattern>
-	 <url-pattern>/dlf/*</url-pattern>
-	 <url-pattern>/dlx/*</url-pattern>
-      </web-resource-collection>
+	<servlet>
+		<servlet-name>Controller</servlet-name>
+		<servlet-class>de.jwi.jfm.servlets.Controller</servlet-class>
+	</servlet>
 
-      <auth-constraint>
-	 <role-name>jfmuser</role-name>
-      </auth-constraint>
-    </security-constraint>
-  --> 
-    
-    
-    <!-- Default login configuration uses form-based authentication -->
-    <login-config>
-      <auth-method>FORM</auth-method>
-      <realm-name>Example Form-Based Authentication Area</realm-name>
 
-      <form-login-config>
-        <form-login-page>/security/login.jsp</form-login-page>
-        <form-error-page>/security/error.jsp</form-error-page>
-      </form-login-config>
-      
-    </login-config>
-        
-    <security-role>
-      <role-name>jfmuser</role-name>
-    </security-role>   
-    
+	<servlet-mapping>
+		<servlet-name>Controller</servlet-name>
+		<url-pattern>/p/*</url-pattern>
+	</servlet-mapping>
+
+
+	<!-- servlet-mapping> <servlet-name>Controller</servlet-name> <url-pattern>/ctx/*</url-pattern> 
+		</servlet-mapping> <servlet-mapping> <servlet-name>Controller</servlet-name> 
+		<url-pattern>/dlf/*</url-pattern> </servlet-mapping> <servlet-mapping> <servlet-name>Controller</servlet-name> 
+		<url-pattern>/dlx/*</url-pattern> </servlet-mapping> -->
+	<session-config>
+		<session-timeout>5</session-timeout>
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>jFM.html</welcome-file>
+	</welcome-file-list>
+
+
+	<!-- remove the comment around <security-constraint> to restrict access 
+		to jFM to users with role jfmuser -->
+
+	<!-- <security-constraint> <web-resource-collection> <web-resource-name>jFM</web-resource-name> 
+		<url-pattern>/path/*</url-pattern> <url-pattern>/ctx/*</url-pattern> <url-pattern>/dlf/*</url-pattern> 
+		<url-pattern>/dlx/*</url-pattern> </web-resource-collection> <auth-constraint> 
+		<role-name>jfmuser</role-name> </auth-constraint> </security-constraint> -->
+
+
+	<!-- Default login configuration uses form-based authentication -->
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<realm-name>Example Form-Based Authentication Area</realm-name>
+
+		<form-login-config>
+			<form-login-page>/security/login.jsp</form-login-page>
+			<form-error-page>/security/error.jsp</form-error-page>
+		</form-login-config>
+
+	</login-config>
+
+	<security-role>
+		<role-name>jfmuser</role-name>
+	</security-role>
+
 </web-app>

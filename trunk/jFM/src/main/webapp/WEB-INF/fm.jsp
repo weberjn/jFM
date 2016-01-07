@@ -24,7 +24,7 @@
 
 <c:if test="${!fatalerror}"> 
 
-<form name="files" action="${self}${path}" method="get">
+<form name="files" action="${self}${path}" method="post">
 
 <table border="1">
 <tr>
@@ -104,8 +104,6 @@ Check all
 </td>
 <td class="header-center" style="width: 3em;"><small>Type</small></td>
 
-<td class="header-center"><small>Attributes</small></td>
-
 <td class="header-center" style="width: 10%;"><small>Size</small>
 &nbsp;
 <a href="${self}${path}?sort=su">
@@ -132,6 +130,10 @@ Check all
 
 <img src="${url}/img/shift-down.gif" title="sort by date descending" width="16" height="16" alt="SORTDN" border="0"></a>
 </td>
+
+<td class="header-center"><small>Attributes</small></td>
+
+
 </tr>
 
 </thead>
@@ -159,19 +161,17 @@ Check all
     <a href="${self}${file.path}">${file.name}</a>
   </c:when> 
   <c:otherwise>
-  <a href="${file.url}"><img src="${url}/img/file.gif" title="file" width="16" height="16" alt="FILE" border="0"></a>
-  <a href="${file.url}">${file.name}</a>
+  <a href="${self}${file.path}"><img src="${url}/img/file.gif" title="file" width="16" height="16" alt="FILE" border="0"></a>
+  <a href="${self}${file.path}">${file.name}</a>
   </c:otherwise> 
 </c:choose>  </small></td>
 <td class="row-center">${file.type}</td>
-
-<td class="row-center-mono">${file.attributes}</td>
 
 <td class="row-right">${file.size} </td>
 
 <td class="row-center">${file.lastModified}</td>
 
-
+<td class="row-center-mono">${file.attributes}</td>
 
 </tr>
 
@@ -240,7 +240,7 @@ Check all
 
 <td class="row-center">
 
-<form action="${self}${path}" method="get">
+<form action="${self}${path}" method="post">
 
 <input name="newdir" type="text">
 <input type="submit" name="command" value="Mkdir" title="make directory">
@@ -303,7 +303,7 @@ File upload and unzip to current directory
 
 <td class="row-left">
 
-<form action="${self}${path}" method="get">
+<form action="${self}${path}" method="post">
 
 <input name="url" type="text" title="http or ftp">
 
