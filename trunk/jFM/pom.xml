@@ -12,6 +12,10 @@
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
 	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	    
+	    <timestamp>${maven.build.timestamp}</timestamp>
+   		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+	    
 	</properties>
 	
 	<dependencies>
@@ -46,6 +50,14 @@
 	</dependencies>
 	<build>
 		<finalName>jFM</finalName>
+		
+		<resources>
+		   <resource>
+		      <directory>src/main/resources</directory>
+		      <filtering>true</filtering>
+		   </resource>
+		</resources>
+		
 	</build>
 	
 

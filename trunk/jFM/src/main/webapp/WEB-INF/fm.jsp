@@ -324,7 +324,7 @@ File upload and unzip to current directory
 <tbody>
 <tr>
 
-<td class="row-left"><small><a href="${jfmhome}" title="${jfmhome}">jFM ${version}</a> Copyright &copy; 2004,2015 J&uuml;rgen Weber</small></td>
+<td class="row-left"><small><a href="${jfmhome}" title="${jfmhome}">jFM ${version}</a>(${builddate}) Copyright &copy; 2004,2016 J&uuml;rgen Weber</small></td>
 
 <td class="row-right"><small>jFM running on Java ${javaversion}, ${serverInfo}</small></td>
 
