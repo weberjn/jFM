@@ -181,9 +181,9 @@ Check all
 </table>
 
 <table>
-<tfoot>
+<tbody>
 <tr>
-<td colspan="6" class="header-left">Action on selected Files</td>
+<td colspan="4" class="header-left">Action on selected Files</td>
 </tr>
 
 
@@ -208,7 +208,6 @@ Check all
 
 <td class="row-right"> <input type="submit" name="command" value="ZipDownload" title="Zip download files"></td> 
 
-<td class="row-left" colspan="2"> <input type="submit" name="command" value="FtpUpload" title="ftp upload files"> to <input name="ftpto" type="text" size="60" value="" title="user:password@host/path"></td> 
 
 
 </tr>
@@ -224,11 +223,17 @@ Check all
 <tr>
 <td class="row-right"> <input type="submit" name="command" value="Chmod" title="Chmod selected files"></td> 
 <td class="row-left">to <input name="chmodto" type="text" size="9" title="format: rwxr-xr-x"></td>
+
+<td class="row-right"><input type="submit" name="command" value="FtpUpload" title="ftp upload files"></td>
+<td class="row-left">to <input name="ftpto" type="text" size="60" value="" title="user:password@host/path"></td> 
+
+
+
 </tr>
 
 
 
-</tfoot>
+</tbody>
 </table>
 
 </form>
