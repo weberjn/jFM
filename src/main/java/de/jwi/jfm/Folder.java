@@ -253,7 +253,7 @@ public class Folder
 		String s1 = s.substring(0, s.lastIndexOf('.'));
 		String s2 = s.substring(s.lastIndexOf('.') + 1);
 
-		File f = (File) nameToFile.get(s1);
+		File f = nameToFile.get(s1);
 
 		if (null == f)
 		{
@@ -540,7 +540,7 @@ public class Folder
 
 		try
 		{
-			FileUtils.copyURLToFile(remote, f);
+			FileUtils.copyURLToFile(remote, f, 1000, 1000);
 		}
 		catch (IOException e)
 		{
