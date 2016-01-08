@@ -231,7 +231,16 @@ public class Folder
 
 	private File getTargetFile(String target) throws IOException
 	{
-		File f = new File(myFile, target);
+		File f = null;
+		
+		if (target.startsWith(File.separator))
+		{
+			f = new File(target);
+		}
+		else
+		{
+			f = new File(myFile, target);
+		}
 
 		f = f.getCanonicalFile();
 
