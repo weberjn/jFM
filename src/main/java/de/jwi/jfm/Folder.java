@@ -54,6 +54,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.zip.ZipOutputStream;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
@@ -380,17 +382,29 @@ public class Folder
 
 			if (move)
 			{
-				if (!f.renameTo(fx))
+				if (f.isDirectory())
 				{
-					sb.append(f.getName()).append(" ");
+					FileUtils.moveDirectoryToDirectory(f, fx, true);
+				}
+				else {
+					if (!f.renameTo(fx))
+					{
+						sb.append(f.getName()).append(" ");
+					}
 				}
 			}
 			else
 			{
 				try
 				{
-					FileUtils.copyFile(f, fx, true);
-					// fileCopy(f, fx);
+					if (f.isDirectory())
+					{
+						FileUtils.copyDirectoryToDirectory(f, fx);
+					}
+					else
+					{
+						FileUtils.copyFile(f, fx, true);
+					}
 				}
 				catch (IOException e)
 				{
@@ -722,10 +736,96 @@ public class Folder
 		return null;
 	}
 
+	private String copyOrCutClipboard(String[] selectedIDs, int cutOrCopy, HttpSession session)
+			throws OutOfSyncException, IOException
+	{
+		File[] selectedfiles = new File[selectedIDs.length];
+
+		for (int i = 0; i < selectedIDs.length; i++)
+		{
+			File f = checkAndGet(selectedIDs[i]);
+
+			if (null == f)
+			{
+				throw new OutOfSyncException();
+			}
+
+			selectedfiles[i] = f;
+		}
+
+		ClipBoardContent clipBoardContent = new ClipBoardContent(cutOrCopy, selectedfiles);
+		session.setAttribute("clipBoardContent", clipBoardContent);
+		
+		return "";
+	}
+
+	private String pasteClipboard(HttpSession session)
+			throws OutOfSyncException, IOException
+	{
+		ClipBoardContent clipBoardContent = (ClipBoardContent)session.getAttribute("clipBoardContent");
+		if (clipBoardContent == null)
+		{
+			return "nothing in clipboard";
+		}
+
+		for (int i = 0; i < clipBoardContent.selectedfiles.length; i++)
+		{
+			File f = clipBoardContent.selectedfiles[i];
+			File f1 = f.getParentFile();
+			
+			if (myFile.getCanonicalFile().equals(f1.getCanonicalFile()))
+			{
+				return "same folder";
+			}
+		}
+		
+		for (int i = 0; i < clipBoardContent.selectedfiles.length; i++)
+		{
+			File f = clipBoardContent.selectedfiles[i];
+
+			if (clipBoardContent.contentType == ClipBoardContent.COPY_CONTENT)
+			{
+				if (f.isDirectory())
+				{
+				 	FileUtils.copyDirectoryToDirectory(f, myFile);
+				}
+				else
+				{
+					FileUtils.copyFileToDirectory(f, myFile, true);
+				}
+			}
+			if (clipBoardContent.contentType == ClipBoardContent.CUT_CONTENT)
+			{
+				if (f.isDirectory())
+				{
+				 	FileUtils.moveDirectoryToDirectory(f, myFile, false);
+				}
+				else
+				{
+					FileUtils.moveFileToDirectory(f, myFile, false);
+				}
+			}
+			if (clipBoardContent.contentType == ClipBoardContent.CUT_CONTENT)
+			{
+				session.removeAttribute("clipBoardContent");
+			}
+		}
+		
+		return "";
+	}
+
+	private String clearClipboard(HttpSession session)
+			throws OutOfSyncException, IOException
+	{
+		session.removeAttribute("clipBoardContent");
+		
+		return "";
+	}
+	
 	// caller must have called load() before
 
 	public String action(int action, OutputStream out, String[] selectedIDs,
-			String target) throws IOException, OutOfSyncException
+			String target, HttpSession session) throws IOException, OutOfSyncException
 	{
 		String res = null;
 
@@ -767,6 +867,18 @@ public class Folder
 			case Controller.JOIN_ACTION:
 				res = join(selectedIDs);
 				break;
+			case Controller.CLIPBOARD_COPY_ACTION:
+				res = copyOrCutClipboard(selectedIDs, ClipBoardContent.COPY_CONTENT, session);
+				break;
+			case Controller.CLIPBOARD_CUT_ACTION:
+				res = copyOrCutClipboard(selectedIDs, ClipBoardContent.CUT_CONTENT, session);
+				break;
+			case Controller.CLIPBOARD_PASTE_ACTION:
+				res = pasteClipboard(session);
+				break;
+			case Controller.CLIPBOARD_CLEAR_ACTION:
+				res = clearClipboard(session);
+				break;		
 		}
 
 		if ("".equals(res)) // no error, action succeded.

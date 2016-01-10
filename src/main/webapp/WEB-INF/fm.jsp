@@ -182,14 +182,30 @@ Check all
 
 <table>
 <tbody>
+
+<tr>
+<td colspan="4" class="header-left">Clipboard on selected Files</td>
+</tr>
+
+<tr>
+<td class="row-center"><input type="submit" name="command" value="cut" title="cut selected files to clipboard"></td> 
+<td class="row-center"><input type="submit" name="command" value="copy" title="copy selected files to clipboard"></td>
+<td class="row-center"><input type="submit" name="command" value="paste" title="paste clipboard to current directory"></td>
+<td class="row-center"><input type="submit" name="command" value="clear" title="clear clipboard"></td>
+<tr>
+<c:if test="${not empty sessionScope.clipBoardContent}"> 
+<tr><td colspan="4" style="font-size:small;">Clipboard contains ${sessionScope.clipBoardContent.fileCount} files to ${sessionScope.clipBoardContent.kind}.
+</td></tr>
+<tr><td colspan="4" style="font-size:small;">${sessionScope.clipBoardContent.files}</td></tr>
+</c:if>
 <tr>
 <td colspan="4" class="header-left">Action on selected Files</td>
 </tr>
 
 
 <tr>
-<td class="row-right"> <input type="submit" name="command" value="Rename" title="Rename selected file"></td> 
-<td class="row-left">to <input name="renameto" type="text"></td>
+<td class="row-right"><input type="submit" name="command" value="Rename to" title="Rename selected file"></td> 
+<td class="row-left"><input name="renameto" type="text"></td>
 
 
 
@@ -202,8 +218,8 @@ Check all
 </tr>
 
 <tr>
-<td class="row-right"> <input type="submit" name="command" value="Copy" title="Copy selected files"></td> 
-<td class="row-left">to <input name="copyto" type="text"></td>
+<td class="row-right"><input type="submit" name="command" value="Copy to" title="Copy selected files"></td> 
+<td class="row-left"><input name="copyto" type="text"></td>
 
 
 <td class="row-right"> <input type="submit" name="command" value="ZipDownload" title="Zip download files"></td> 
@@ -213,19 +229,19 @@ Check all
 </tr>
 
 <tr>
-<td class="row-right"> <input type="submit" name="command" value="Move" title="Move selected files"></td> 
-<td class="row-left">to <input name="moveto" type="text"></td>
+<td class="row-right"><input type="submit" name="command" value="Move to" title="Move selected files"></td> 
+<td class="row-left"><input name="moveto" type="text"></td>
 
 <td class="row-right"> <input type="submit" name="command" value="DeleteRecursively" title="Delete selected folders recursively"></td> 
 <td class="row-left">type YES <input name="confirm" type="text" size="3" title="Confirm with YES"></td>
 </tr>
 
 <tr>
-<td class="row-right"> <input type="submit" name="command" value="Chmod" title="Chmod selected files"></td> 
-<td class="row-left">to <input name="chmodto" type="text" size="9" title="format: rwxr-xr-x"></td>
+<td class="row-right"><input type="submit" name="command" value="Chmod to" title="Chmod selected files"></td> 
+<td class="row-left"><input name="chmodto" type="text" size="9" title="format: rwxr-xr-x"></td>
 
-<td class="row-right"><input type="submit" name="command" value="FtpUpload" title="ftp upload files"></td>
-<td class="row-left">to <input name="ftpto" type="text" size="60" value="" title="user:password@host/path"></td> 
+<td class="row-right"><input type="submit" name="command" value="FtpUpload to" title="ftp upload files"></td>
+<td class="row-left"><input name="ftpto" type="text" value="" title="user:password@host/path"></td> 
 
 
 
@@ -239,7 +255,7 @@ Check all
 </form>
 
 
-<table style="width: 60%; text-align: left;" border="1">
+<table border="1">
 <tbody>
 <tr>
 
@@ -247,8 +263,9 @@ Check all
 
 <form action="${self}${path}" method="post">
 
-<input name="newdir" type="text">
 <input type="submit" name="command" value="Mkdir" title="make directory">
+<input name="newdir" type="text">
+
 </form>
 </td>
 

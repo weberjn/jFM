@@ -41,11 +41,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
 
+import de.jwi.jfm.ClipBoardContent;
 import de.jwi.jfm.Folder;
 import de.jwi.jfm.OutOfSyncException;
 
@@ -91,6 +93,14 @@ public class Controller extends HttpServlet {
 	public static final int JOIN_ACTION = 11;
 
 	public static final int CHMOD_ACTION = 12;
+	
+	public static final int CLIPBOARD_COPY_ACTION = 13;
+	
+	public static final int CLIPBOARD_CUT_ACTION = 14;
+	
+	public static final int CLIPBOARD_PASTE_ACTION = 15;
+	
+	public static final int CLIPBOARD_CLEAR_ACTION = 16;
 
 	private Properties dirmapping = null;
 
@@ -284,6 +294,8 @@ public class Controller extends HttpServlet {
 			throws OutOfSyncException, IOException {
 		String rc = "";
 
+		HttpSession session = request.getSession();
+		
 		String target = null;
 		int action = NOP_ACTION;
 		String[] selectedfiles = request.getParameterValues("index");
@@ -334,7 +346,7 @@ public class Controller extends HttpServlet {
 			action = GETURL_ACTION;
 		} else if ("Delete".equals(command)) {
 			action = DELETE_ACTION;
-		} else if ("Rename".equals(command)) {
+		} else if ("Rename to".equals(command)) {
 			target = request.getParameter("renameto");
 			action = RENAME_ACTION;
 		} else if ("Unzip".equals(command)) {
@@ -346,30 +358,42 @@ public class Controller extends HttpServlet {
 			response.setHeader("Content-Disposition", "inline; filename=\"jFMdownload.zip\"");
 
 			out = response.getOutputStream();
-		} else if ("Copy".equals(command)) {
+		} else if ("Copy to".equals(command)) {
 			target = request.getParameter("copyto");
 			action = COPY_ACTION;
-		} else if ("Move".equals(command)) {
+		} else if ("Move to".equals(command)) {
 			target = request.getParameter("moveto");
 			action = MOVE_ACTION;
-		} else if ("Chmod".equals(command)) {
+		} else if ("Chmod to".equals(command)) {
 			target = request.getParameter("chmodto");
 			action = CHMOD_ACTION;
 		} else if ("DeleteRecursively".equals(command)) {
 			target = request.getParameter("confirm");
 			action = DELETE_RECURSIVE_ACTION;
-		} else if ("FtpUpload".equals(command)) {
+		} else if ("FtpUpload to".equals(command)) {
 			target = request.getParameter("ftpto");
 			action = FTPUP_ACTION;
 		} else if ("Join".equals(command)) {
 			action = JOIN_ACTION;
+		} else if ("cut".equals(command)) {
+			action = CLIPBOARD_CUT_ACTION;
+		} else if ("copy".equals(command)) {
+			action = CLIPBOARD_COPY_ACTION;
+		} else if ("paste".equals(command)) {
+			action = CLIPBOARD_PASTE_ACTION;
 		}
+		else if ("clear".equals(command)) {
+			action = CLIPBOARD_CLEAR_ACTION;
+		}
+		
+		
+				
 		if (NOP_ACTION == action) {
 			return "";
 		}
 
 		try {
-			rc = folder.action(action, out, selectedfiles, target);
+			rc = folder.action(action, out, selectedfiles, target, session);
 		} catch (SecurityException e) {
 			rc = "SecurityException: " + e.getMessage();
 			return rc;
