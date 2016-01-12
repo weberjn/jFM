@@ -2,6 +2,7 @@
 package de.jwi.jfm;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,7 +32,17 @@ public class ClipBoardContent {
 	public String getFiles()
 	{
 		List<File> l = Arrays.asList(selectedfiles);
-		String s = l.toString();
+		
+		List<String> sl = new ArrayList<String>(l.size());
+		
+		for (File f : l)
+		{
+			sl.add(f.getName());
+		}
+		
+		String s = l.get(0).getParent();
+		
+		s = s + ": " + sl.toString();
 		return s;
 	}
 	
