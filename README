@@ -5,13 +5,13 @@
 jFM is free software. For copyright  information please see the file COPYING, which contains the GNU Public Library License. 
 jFM uses libraries from the Apache Jakarta Commons Project (http://jakarta.apache.org), which are covered by the Apache license, please see the file jakarta-commons-LICENSE.txt.
 
-For installation instructions please see the file index.html
+For installation instructions please see the file src/main/webapp/jFM.html
 
 
 
 If you have some feedback on jFM please visit the web site at 
 
-	https://java.net/projects/jfm
+	https://github.com/weberjn/jFM
 
 and go to the forums.	
 If you want to thank me for jFM, feel free to send me a picture
