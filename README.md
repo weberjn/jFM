@@ -5,7 +5,7 @@ File manager as JavaEE Web Application
 
 Please consult the HTML documentation in 
 
-![src/main/webapp/jFM.html](https://rawgit.com/weberjn.github.io/jFM/master/src/main/webapp/jFM.html)
+src/main/webapp/jFM.html
 
 ![screenshot](doc/jFM.png?raw=true)
 
