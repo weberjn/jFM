@@ -1,11 +1,11 @@
 jFM Web Application
 ========================
 
-JavaEE Web Application
+File manager as JavaEE Web Application
 
 Please consult the HTML documentation in 
 
-src/main/webapp/jFM.html
+(src/main/webapp/jFM.html)
 
 ![screenshot](doc/jFM.png?raw=true)
 
