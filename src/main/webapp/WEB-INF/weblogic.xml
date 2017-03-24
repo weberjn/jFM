@@ -3,7 +3,7 @@
 <weblogic-web-app xmlns="http://xmlns.oracle.com/weblogic/weblogic-web-app">
 
 <security-role-assignment>
-    <role-name>jfmuser</role-name>
+    <role-name>jfm</role-name>
     <principal-name>AWEBMON</principal-name>
 </security-role-assignment>
 

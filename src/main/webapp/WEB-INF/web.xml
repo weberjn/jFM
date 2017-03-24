@@ -14,14 +14,9 @@
 		<param-value>/=C:/java/jakarta-tomcat-5.0.19/webapps/ROOT,apache=D:/apache/htdocs</param-value> 
 		</context-param> -->
 
-	<!--filter>
-		<filter-name>filter</filter-name>
-		<filter-class>de.jwi.jfm.filters.ServletFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>filter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping-->
+	<!--filter> <filter-name>filter</filter-name> <filter-class>de.jwi.jfm.filters.ServletFilter</filter-class> 
+		</filter> <filter-mapping> <filter-name>filter</filter-name> <url-pattern>/*</url-pattern> 
+		</filter-mapping -->
 
 	<servlet>
 		<servlet-name>Controller</servlet-name>
@@ -34,11 +29,6 @@
 		<url-pattern>/p/*</url-pattern>
 	</servlet-mapping>
 
-
-	<!-- servlet-mapping> <servlet-name>Controller</servlet-name> <url-pattern>/ctx/*</url-pattern> 
-		</servlet-mapping> <servlet-mapping> <servlet-name>Controller</servlet-name> 
-		<url-pattern>/dlf/*</url-pattern> </servlet-mapping> <servlet-mapping> <servlet-name>Controller</servlet-name> 
-		<url-pattern>/dlx/*</url-pattern> </servlet-mapping> -->
 	<session-config>
 		<session-timeout>5</session-timeout>
 	</session-config>
@@ -49,12 +39,17 @@
 
 
 	<!-- remove the comment around <security-constraint> to restrict access 
-		to jFM to users with role jfmuser -->
+		to jFM to users with role jfm -->
 
-	<!-- <security-constraint> <web-resource-collection> <web-resource-name>jFM</web-resource-name> 
-		<url-pattern>/path/*</url-pattern> <url-pattern>/ctx/*</url-pattern> <url-pattern>/dlf/*</url-pattern> 
-		<url-pattern>/dlx/*</url-pattern> </web-resource-collection> <auth-constraint> 
-		<role-name>jfmuser</role-name> </auth-constraint> </security-constraint> -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>jFM</web-resource-name>
+			<url-pattern>/p/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>jfm</role-name>
+		</auth-constraint>
+	</security-constraint>
 
 
 	<!-- Default login configuration uses form-based authentication -->
@@ -70,7 +65,7 @@
 	</login-config>
 
 	<security-role>
-		<role-name>jfmuser</role-name>
+		<role-name>jfm</role-name>
 	</security-role>
 
 </web-app>
