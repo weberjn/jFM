@@ -33,6 +33,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -62,9 +64,6 @@ public class Controller extends HttpServlet {
 	private static final String CTX_DOWNLOAD_SERVLET = "/dlx";
 
 	private static final String FILE_DOWNLOAD_SERVLET = "/dlf";
-
-	private static String version = "unknown";
-	private static String builddate = "unknown";
 
 	private static final String VERSIONCONFIGFILE = "/version.txt";
 
@@ -108,6 +107,8 @@ public class Controller extends HttpServlet {
 
 	private String filebase = null;
 
+	private Properties versionProperties;
+
 	public void init() throws ServletException {
 		tempDir = (File) getServletContext().getAttribute("javax.servlet.context.tempdir");
 
@@ -134,23 +135,12 @@ public class Controller extends HttpServlet {
 			InputStream is = getClass().getResourceAsStream(VERSIONCONFIGFILE);
 
 			if (is != null) {
-				Properties versionProperties = new Properties();
+				versionProperties = new Properties();
 				versionProperties.load(is);
 				is.close();
-				
-				s = versionProperties.getProperty("version");
-				if (null != s) {
-					version = s;
-				}
-				
-				s = versionProperties.getProperty("build.date");
-				if (null != s) {
-					builddate = s;
-				}
-				
 			}
 		} catch (Exception e) {
-			e.printStackTrace(System.err);
+			throw new ServletException(VERSIONCONFIGFILE,e);
 		}
 
 	}
@@ -181,6 +171,19 @@ public class Controller extends HttpServlet {
 
 				return;
 			}
+			
+			String showDotfiles = request.getParameter("showDotfiles");
+
+			HttpSession session = request.getSession();
+
+			Map<String,String> options = (Map<String,String>)session.getAttribute("options");
+			if (options == null)
+			{
+				options = new HashMap<String,String>();
+				session.setAttribute("options", options);
+			}
+
+			options.put("showDotfiles", showDotfiles);	
 
 			File f = new File(filebase, pathInfo);
 
@@ -213,7 +216,7 @@ public class Controller extends HttpServlet {
 			String fileURL = requestURI.replaceFirst(contextPath, "");
 			fileURL = fileURL.replaceFirst(servletPath, "");
 
-			folder = new Folder(f, pathInfo, fileURL);
+			folder = new Folder(f, pathInfo, fileURL, options);
 
 			folder.load();
 
@@ -258,16 +261,12 @@ public class Controller extends HttpServlet {
 		
 		request.setAttribute("date", s);
 		
-		request.setAttribute("version", version);
+		request.setAttribute("versionInfo", versionProperties);
 		
-		request.setAttribute("builddate", builddate);
-
 		request.setAttribute("javaversion", System.getProperty("java.version"));
 
 		request.setAttribute("serverInfo", getServletContext().getServerInfo());
 
-		request.setAttribute("jfmhome", "https://java.net/projects/jfm");
-		
 		request.setAttribute("url", contextPath);
 
 		request.setAttribute("path", pathInfo);
@@ -295,7 +294,7 @@ public class Controller extends HttpServlet {
 		String rc = "";
 
 		HttpSession session = request.getSession();
-		
+				
 		String target = null;
 		int action = NOP_ACTION;
 		String[] selectedfiles = request.getParameterValues("index");

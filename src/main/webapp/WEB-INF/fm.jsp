@@ -13,12 +13,7 @@
 
 
 <body bgcolor="#FFFFFF">
-<h3>jFM - File Manager </h3>
-
-<c:if test="${!principal}">
-<a href="${self}${path}?logout=t" title="Log out">log out ${principal}</a>
-</c:if>
-<p>
+<h3>jFM - File Manager</h3>
 
 <span style="color: rgb(255, 0, 0);">${actionresult}</span>
 
@@ -342,11 +337,28 @@ File upload and unzip to current directory
 
 </c:if>
 
+<table>
+<tbody>
+
+<tr>
+<td colspan="4" class="header-left">Options</td>
+</tr>
+<tr>
+<td class="row-center"><form name="options" action="${self}${path}"><input type="checkbox" <c:if test="${not empty options.showDotfiles}">checked="on"</c:if> name="showDotfiles" title="show dot files">show dot files
+<input type="submit" value="setoptions" /> </form>
+</td>
+</tr>
+
+</tbody>
+</table>
+
+
+
 <table border="0">
 <tbody>
 <tr>
 
-<td class="row-left"><small><a href="${jfmhome}" title="${jfmhome}">jFM ${version}</a>(${builddate}) Copyright &copy; 2004,2016 J&uuml;rgen Weber</small></td>
+<td class="row-left"><small><a href="${versionInfo.jfmHome}" title="${versionInfo.jfmHome}">jFM ${versionInfo.version}</a> (${versionInfo.buildDate}) Copyright &copy; ${versionInfo.copyRight}</small></td>
 
 <td class="row-right"><small>jFM running on Java ${javaversion}, ${serverInfo}</small></td>
 

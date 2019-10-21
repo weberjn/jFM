@@ -24,6 +24,7 @@ package de.jwi.jfm;
  */
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -81,6 +82,8 @@ public class Folder
 	String url;
 
 	private File myFile;
+	
+	private Map<String,String> options;
 
 	File[] children;
 
@@ -119,12 +122,13 @@ public class Folder
 		// NOP
 	}
 
-	public Folder(File f, String path, String url)
+	public Folder(File f, String path, String url, Map<String,String> options)
 			throws IOException
 	{
 		myFile = f;
 		this.path = path;
 		this.url = url;
+		this.options = options;
 
 		if (!myFile.exists())
 		{
@@ -140,7 +144,18 @@ public class Folder
 	public void load()
 	{
 
-		children = myFile.listFiles();
+		children = myFile.listFiles(new FilenameFilter()
+		{
+			public boolean 	accept(File dir, String name)
+			{
+				if (name.startsWith(".") && null == options.get("showDotfiles"))
+				{
+					return false;
+				}
+				return true;
+			}
+		}
+		);
 		
 		if (children == null)
 		{
