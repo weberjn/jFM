@@ -3,9 +3,7 @@ jFM Web Application
 
 File manager as JavaEE Web Application
 
-Please consult the HTML documentation in 
-
-src/main/webapp/jFM.html
+Please consult the [HTML documentation](src/main/webapp/jFM.html).
 
 ![screenshot](doc/jFM.png?raw=true)
 
